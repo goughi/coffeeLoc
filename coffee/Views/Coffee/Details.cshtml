@@ -1,0 +1,50 @@
+﻿@model Coffee.Models.CoffeeStore
+
+@{
+    ViewBag.Title = " Coffee Store Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CoffeeStore</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpeningTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpeningTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClosingTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClosingTime)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { Eircode = Model.Eircode }) |
+    @Html.ActionLink("Back to List", "StoreIndex")
+</p>

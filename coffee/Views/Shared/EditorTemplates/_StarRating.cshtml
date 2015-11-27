@@ -1,0 +1,17 @@
+﻿@model int
+@{
+    var chk = "checked";
+    var checked1 = Model == 1 ? chk : null;
+    var checked2 = Model == 2 ? chk : null;
+    var checked3 = Model == 3 ? chk : null;
+    var checked4 = Model == 4 ? chk : null;
+    var checked5 = Model == 5 ? chk : null;
+    var htmlField = ViewData.TemplateInfo.HtmlFieldPrefix;
+}
+<div class="rating">
+    <input type="radio" checked="@checked5" id="star5-@htmlField" name="@htmlField" value="5" /><label for="star5-@htmlField" title="Best">5 stars</label>
+    <input type="radio" checked="@checked4" id="star4-@htmlField" name="@htmlField" value="4" /><label for="star4-@htmlField" title="Good">4 stars</label>
+    <input type="radio" checked="@checked3" id="star3-@htmlField" name="@htmlField" value="3" /><label for="star3-@htmlField" title="Average">3 stars</label>
+    <input type="radio" checked="@checked2" id="star2-@htmlField" name="@htmlField" value="2" /><label for="star2-@htmlField" title="Not Great">2 stars</label>
+    <input type="radio" checked="@checked1" id="star1-@htmlField" name="@htmlField" value="1" /><label for="star1-@htmlField" title="Pretty Bad">1 star</label>
+</div>

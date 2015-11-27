@@ -1,0 +1,96 @@
+﻿@model coffee.ViewModels.CoffeeIndexData
+
+@{
+    ViewBag.Title = "StoreIndex";
+}
+
+<h2>CoffeeStores</h2>
+
+<p>
+    @Html.ActionLink("Create new coffee store", "Create")
+</p>
+
+
+        <table class=" table">
+    <tr>
+        
+        <th>
+           Eircode
+        </th>
+        <th>
+            StoreName
+        </th>
+        <th>
+           Location
+        </th>
+        <th>
+            OpeningTime
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var store in Model.coffeeStores)
+    {
+        string selectedRow = "";
+        if (store.Eircode == ViewBag.Eircode)
+        {
+            selectedRow = "success";
+        }
+                <tr class="@selectedRow">
+                    <td>
+                        @Html.DisplayFor(model => store.Eircode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => store.StoreName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => store.Location)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => store.OpeningTime)
+                    </td>
+                    <td>
+                    
+                        @Html.ActionLink("Select", "StoreIndex", new { Eircode = store.Eircode })
+                    
+                        @Html.ActionLink("Edit", "Edit", new { Eircode = store.Eircode })
+                        @Html.ActionLink("Details", "Details", new { Eircode = store.Eircode })
+                        @Html.ActionLink("Delete", "Delete", new { Eircode = store.Eircode })
+                    </td>
+                </tr>
+        }
+    </table>
+        
+      @if (Model.reviews != null)
+      {
+        <h3>Reviews for selected coffee store</h3>
+        <table class="table">
+            <tr>
+               
+                <th>Eircode</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var review in Model.reviews)
+            {
+               
+                <tr>
+                    
+                    <td>
+                        @review.Eircode
+                    </td>
+                    <td>
+                        @review.Rating
+                    </td>
+                  <td>
+                      @review.Comment
+                  </td>
+                    
+                </tr>
+
+            }
+        </table>
+      }
+
+
+
