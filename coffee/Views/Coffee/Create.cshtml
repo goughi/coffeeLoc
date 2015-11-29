@@ -31,6 +31,25 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-primary active">
+                        @Html.RadioButtonFor(model=>model.City, "Limerick")Limerick
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButtonFor(model=>model.City, "Cork")Cork
+                    </label>
+                    <label class="btn btn-primary">
+                        @Html.RadioButtonFor(model => model.City, "Dublin")Dublin
+                    </label>
+
+                </div>
+               
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })

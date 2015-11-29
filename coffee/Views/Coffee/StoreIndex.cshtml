@@ -7,7 +7,7 @@
 <h2>CoffeeStores</h2>
 
 <p>
-    @Html.ActionLink("Create new coffee store", "Create")
+    @Html.ActionLink("Add new coffee store", "Create")
 </p>
 
 
@@ -25,6 +25,9 @@
         </th>
         <th>
             OpeningTime
+        </th>
+        <th>
+            ClosingTime
         </th>
         <th></th>
     </tr>
@@ -50,9 +53,12 @@
                         @Html.DisplayFor(model => store.OpeningTime)
                     </td>
                     <td>
+                        @Html.DisplayFor(model => store.ClosingTime)
+                    </td>
+                    <td>
                     
                         @Html.ActionLink("Select", "StoreIndex", new { Eircode = store.Eircode })
-                    
+                    @Html.ActionLink("Coffee List", "CoffeeList", new { Eircode = store.Eircode })
                         @Html.ActionLink("Edit", "Edit", new { Eircode = store.Eircode })
                         @Html.ActionLink("Details", "Details", new { Eircode = store.Eircode })
                         @Html.ActionLink("Delete", "Delete", new { Eircode = store.Eircode })

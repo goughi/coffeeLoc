@@ -15,8 +15,8 @@ namespace coffee
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{eircode}",
-                defaults: new { controller = "Reviews", action = "Index", eircode = UrlParameter.Optional }
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Coffee", action = "StoreIndex", id = UrlParameter.Optional }
             );
         }
     }

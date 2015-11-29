@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+  
 }
 
 <h2>Details</h2>
@@ -40,6 +41,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReviewDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReviewDate)
         </dd>
 
     </dl>

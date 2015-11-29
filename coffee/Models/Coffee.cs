@@ -36,18 +36,25 @@ namespace Coffee.Models
         PM1900 = 1900
     }
     public enum Rating {[Display(Name = "1")]one = 1, [Display(Name = "2")]two, [Display(Name = "3")]three, [Display(Name = "4")]four, [Display(Name = "5")]five }
-    public enum DrinkSize { tall, grande, vendi }
+    public enum City { Limerick, Cork, Dublin }
     public class CoffeeStore
     {
+        
+        
+        //Store name
+        [Display(Name = "Store Name")]
         [StringLength(20)]
         [Required(ErrorMessage =" You must enter a name for coffee store")]
         public String StoreName { get; set; }
+        //Eircode
         [Key]
         [Required(ErrorMessage ="You must enter a specific Eircode for store location")]
         public String Eircode { get; set; }
+        //Location
         [Required(ErrorMessage ="You must enter a location")]
-        [StringLength(40)]
+        [StringLength(42)]
         public String Location { get; set; }
+        //opening/closing hours
         public bool IsOpen
         {
             get
@@ -59,46 +66,65 @@ namespace Coffee.Models
                 else { return false; }
             }
         }
-        [Range(0, 5, ErrorMessage = "rating must be between 1 and 5")]
-        public double StoreRating { get; }
-
+       [Display(Name = "Opening Time")]
         public OpeningHour OpeningTime { get; set; }
 
+        [Display(Name = "Closing Time")]
         public ClosingHour ClosingTime { get; set; }
+        //list of coffees and prices
+        public double StoreRating { get; }
+        //[Display(Name = "Coffee List")]
+        //public List<String> Coffees
+        //{
+        //    get
+        //    { return coffees; }
+        //    set
+        //    {
+        //        coffees = value;
+        //    }
+        //}
+        public City City { get; set; }
 
         public virtual ICollection<Drink> Drinks { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
-    public class Drink
-    {
-        [Key]
-        public int DrinkID { get; set; }
-        [StringLength(20)]
-        [Required(ErrorMessage ="You must enter a drink name")]
-        public String DrinkName { get; set; }
-        public DrinkSize DrinkSize { get; set; }
-        [Range(1.0,10, ErrorMessage ="Price must be between 1 and 10 euros")]
-        public double Price { get; set; }
-
-        public String Eircode { get; set; }
-        public virtual CoffeeStore CoffeeStore { get; set; }
-
-    }
+   
     public class Review
     {
+        
         public int ReviewID { get; set; }
+        [Display(Name = "Customer's Name")]
         [Required(ErrorMessage = "You must enter a Customer's name")]
         public String CustomerName { get; set; }
         [Required(ErrorMessage = "You must enter a comment")]
         public String Comment { get; set; }
         [UIHint("_StarRating")]
         public int Rating { get; set; }
-        
-        public DateTime DateMade { get; set; }
+        [Display(Name = "Review Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
+        public DateTime? ReviewDate { get; set; }
+      
+       
         public String Eircode { get; set; }
         public virtual CoffeeStore CoffeeStore { get; set; }
     }
+    public class Drink
+    {
+        [Key]
+        public int DrinkID { get; set; }
+        [Display(Name ="Drink")]
+        [StringLength(20)]
+        [Required(ErrorMessage = "You must enter a drink name")]
+        public String DrinkName { get; set; }
+       
+        [Range(1.0, 10, ErrorMessage = "Price must be between 1 and 10 euros")]
+        public double Price { get; set; }
 
+        public String Eircode { get; set; }
+        public virtual CoffeeStore CoffeeStore { get; set; }
+
+    }
     public class DrinkContext : DbContext
     {
         public DrinkContext() : base("DefaultConnection")
@@ -154,36 +180,36 @@ namespace Coffee.Models
             }
         }
     }
-    public class ReviewRepository
-    {
-        public void DoReviewsQuery()
-        {
-            using (DrinkContext db = new DrinkContext())
-            {
-                var coffeeStoreReviews = db.CoffeeStores.Select(a => new { storeName = a.StoreName, location = a.Location, reviews = a.Reviews });
-                foreach(var coffeestore in coffeeStoreReviews)
-                {
-                    var storeReviews = coffeestore.reviews;
-                    foreach(var storeReview in storeReviews)
-                    {
+    //public class ReviewRepository
+    //{
+    //    public void DoReviewsQuery()
+    //    {
+    //        using (DrinkContext db = new DrinkContext())
+    //        {
+    //            var coffeeStoreReviews = db.CoffeeStores.Select(a => new { storeName = a.StoreName, location = a.Location, reviews = a.Reviews });
+    //            foreach(var coffeestore in coffeeStoreReviews)
+    //            {
+    //                var storeReviews = coffeestore.reviews;
+    //                foreach(var storeReview in storeReviews)
+    //                {
                         
 
-                    }
-                }
-            }
-        }
-    }
+    //                }
+    //            }
+    //        }
+    //    }
+  //  }
     public class CodeFirstTest
     {
         static void main()
         {
             DrinkRepository repository = new DrinkRepository();
 
-            CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>(), Drinks = new List<Drink>() };
-            repository.AddStore(st1);
-            Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
+            //CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>() };
+            //repository.AddStore(st1);
+           // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
            // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
-            repository.AddDrink(latte);
+           // repository.AddDrink(latte);
            // repository.AddReview(r1);
 
         }

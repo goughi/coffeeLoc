@@ -22,9 +22,16 @@ namespace coffee.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Having trouble? send us a message";
 
             return View();
+        }
+        [HttpPost]
+        public ActionResult Contact(String message)
+        {
+            ViewBag.Message = "Thanks! We got your message";
+            return View();
+
         }
     }
 }

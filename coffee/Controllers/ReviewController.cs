@@ -10,18 +10,18 @@ using Coffee.Models;
 
 namespace coffee.Controllers
 {
-    public class ReviewsController : Controller
+    public class ReviewController : Controller
     {
         private DrinkContext db = new DrinkContext();
 
-        // GET: Reviews
+        // GET: Review
         public ActionResult Index()
         {
             var reviews = db.Reviews.Include(r => r.CoffeeStore);
             return View(reviews.ToList());
         }
 
-        // GET: Reviews/Details/5
+        // GET: Review/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,19 +36,20 @@ namespace coffee.Controllers
             return View(review);
         }
 
-        // GET: Reviews/Create
+        // GET: Review/Create
         public ActionResult Create()
         {
+            Review review = new Review() { Rating = 4, ReviewDate = DateTime.Now };
             ViewBag.Eircode = new SelectList(db.CoffeeStores, "Eircode", "StoreName");
-            return View();
+            return View(review);
         }
 
-        // POST: Reviews/Create
+        // POST: Review/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ReviewID,CustomerName,Comment,Rating,Eircode")] Review review)
+        public ActionResult Create([Bind(Include = "ReviewID,CustomerName,Comment,Rating,ReviewDate,Eircode")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +62,7 @@ namespace coffee.Controllers
             return View(review);
         }
 
-        // GET: Reviews/Edit/5
+        // GET: Review/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,12 +78,12 @@ namespace coffee.Controllers
             return View(review);
         }
 
-        // POST: Reviews/Edit/5
+        // POST: Review/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ReviewID,CustomerName,Comment,Rating,Eircode")] Review review)
+        public ActionResult Edit([Bind(Include = "ReviewID,CustomerName,Comment,Rating,ReviewDate,Eircode")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -93,9 +94,8 @@ namespace coffee.Controllers
             ViewBag.Eircode = new SelectList(db.CoffeeStores, "Eircode", "StoreName", review.Eircode);
             return View(review);
         }
-    
-     
-        // GET: Reviews/Delete/5
+
+        // GET: Review/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -110,7 +110,7 @@ namespace coffee.Controllers
             return View(review);
         }
 
-        // POST: Reviews/Delete/5
+        // POST: Review/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

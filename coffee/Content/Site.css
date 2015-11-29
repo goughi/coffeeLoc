@@ -38,7 +38,7 @@
 
 .rating:not(:checked) > label:before {
     font-family: FontAwesome;
-    content: "\f005";
+    content: "\f004";
 }
 .rating > input:checked ~ label {
     color: #fa0;
