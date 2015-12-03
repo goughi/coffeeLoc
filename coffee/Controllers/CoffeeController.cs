@@ -16,40 +16,40 @@ namespace coffee.Controllers
     {
         private DrinkContext db = new DrinkContext();
         // Do Entity Framework code first
-        //public ActionResult DoCodeFirst()
-        //{
-        //    DrinkRepository repository = new DrinkRepository();
+        public ActionResult DoCodeFirst()
+        {
+            DrinkRepository repository = new DrinkRepository();
 
-        //    CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E" ,City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>(), Drinks = new List<Drink>() };
-        //    CoffeeStore co1 = new CoffeeStore() { Eircode = "C15CK3E", City = City.Limerick, Location = "William st.. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Costa", Reviews = new List<Review>(), Drinks = new List<Drink>()};
-        //    CoffeeStore in1 = new CoffeeStore() { Eircode = "C15C01E", City = City.Limerick, Location = "Cecil St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Insomnia", Reviews = new List<Review>(), Drinks = new List<Drink>() };
-        //    repository.AddStore(st1);
-        //    repository.AddStore(co1);
-        //    repository.AddStore(in1);
-        
-         
-           // Drink latte = new Drink() { DrinkName = "Cafe Latte", Price = 3.40, Eircode = co1.Eircode };
-           // Review r1 = new Review() { CustomerName = "mg1", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The coffee is way too expensive", Rating = 4, Eircode = co1.Eircode };
-           // Review r2 = new Review() { CustomerName = "mg5", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The service was shocking", Rating = 4, Eircode = st1.Eircode };
-           // Review r3 = new Review() { CustomerName = "mj3", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The coffee was best in Dublin", Rating = 4, Eircode = st1.Eircode };
-           // Review r4 = new Review() { CustomerName = "keith", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "They had a wide variety of coffees", Rating = 4, Eircode = st1.Eircode };
-           //repository.AddDrink(latte);
-           // repository.AddReview(r1);
-           // repository.AddReview(r2);
-           // repository.AddReview(r3);
-           // repository.AddReview(r4);
-            // Drink Mocha = new Drink() { DrinkName = "Mocha", DrinkID = 002, DrinkSize = DrinkSize.grande, Price = 3.70, Eircode = st1.Eircode };
-            //  Drink Frappacino = new Drink() { DrinkName = "Frappacino", DrinkID = 003, DrinkSize = DrinkSize.vendi, Price = 4.40, Eircode = st1.Eircode };
-            //  Drink IceCafelatte = new Drink() { DrinkName = "Ice Cafe Latte", DrinkID = 004, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
-            //repository.AddDrink(Mocha);
-            //repository.AddDrink(Frappacino);
-            //repository.AddDrink(IceCafelatte);
+            CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>(), Drinks = new List<Drink>() };
+            CoffeeStore co1 = new CoffeeStore() { Eircode = "C15CK3E", City = City.Limerick, Location = "William st.. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Costa", Reviews = new List<Review>(), Drinks = new List<Drink>() };
+            CoffeeStore in1 = new CoffeeStore() { Eircode = "C15C01E", City = City.Limerick, Location = "Cecil St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Insomnia", Reviews = new List<Review>(), Drinks = new List<Drink>() };
+            repository.AddStore(st1);
+            repository.AddStore(co1);
+            repository.AddStore(in1);
 
 
+            Drink latte = new Drink() { DrinkName = "Cafe Latte", Price = 3.40, Eircode = co1.Eircode };
+            Review r1 = new Review() { CustomerName = "mg1", CustomerEmail = "hllllg@gf.ie", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The coffee is way too expensive", Rating = 4, Eircode = co1.Eircode };
+            Review r2 = new Review() { CustomerName = "mg5", CustomerEmail = "hg85jn@gf.ie", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The service was shocking", Rating = 4, Eircode = st1.Eircode };
+            Review r3 = new Review() { CustomerName = "mj3", CustomerEmail = "hyyydg@gf.ie", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "The coffee was best in Dublin", Rating = 4, Eircode = st1.Eircode };
+            Review r4 = new Review() { CustomerName = "keith",CustomerEmail = "hgfdg@gf.ie", ReviewDate = new DateTime(05 / 05 / 2012), Comment = "They had a wide variety of coffees", Rating = 4, Eircode = st1.Eircode };
+            repository.AddDrink(latte);
+            repository.AddReview(r1);
+            repository.AddReview(r2);
+            repository.AddReview(r3);
+            repository.AddReview(r4);
+            Drink Mocha = new Drink() { DrinkName = "Mocha", Price = 3.70, Eircode = st1.Eircode };
+            Drink Frappacino = new Drink() { DrinkName = "Frappacino", Price = 4.40, Eircode = st1.Eircode };
+            Drink IceCafelatte = new Drink() { DrinkName = "Ice Cafe Latte", Price = 3.40, Eircode = st1.Eircode };
+            repository.AddDrink(Mocha);
+            repository.AddDrink(Frappacino);
+            repository.AddDrink(IceCafelatte);
 
-        //    ViewBag.Words = new List<string> { "codeFirst", "completed" };
-        //    return View();
-        //}
+
+
+            ViewBag.Words = new List<string> { "codeFirst", "completed" };
+            return View();
+        }
 
 
         // GET: Coffee list
@@ -102,7 +102,7 @@ namespace coffee.Controllers
         // POST: Coffee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Eircode,StoreName,City,Location,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
+        public ActionResult Create([Bind(Include = "Eircode,StoreName,City,Location,hasWifi,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +134,7 @@ namespace coffee.Controllers
         // POST: Coffee/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Eircode,StoreName,City,Location,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
+        public ActionResult Edit([Bind(Include = "Eircode,StoreName,City,Location,hasWifi,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
         {
             if (ModelState.IsValid)
             {

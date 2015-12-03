@@ -39,21 +39,24 @@ namespace Coffee.Models
     public enum City { Limerick, Cork, Dublin }
     public class CoffeeStore
     {
-        
-        
         //Store name
         [Display(Name = "Store Name")]
         [StringLength(20)]
-        [Required(ErrorMessage =" You must enter a name for coffee store")]
+        [Required(ErrorMessage = " You must enter a name for coffee store")]
         public String StoreName { get; set; }
+
         //Eircode
         [Key]
-        [Required(ErrorMessage ="You must enter a specific Eircode for store location")]
+        // eircode is a 7 character code, 3 char routing key (A..Z, 1..9)
+        // followed by 4 char unique ID (A..Z, 1..9)
+        [RegularExpression("([A-Z1-9]{7})", ErrorMessage = "Invalid Eircode")]
         public String Eircode { get; set; }
+
         //Location
-        [Required(ErrorMessage ="You must enter a location")]
+        [Required(ErrorMessage = "You must enter a location")]
         [StringLength(42)]
         public String Location { get; set; }
+
         //opening/closing hours
         public bool IsOpen
         {
@@ -66,46 +69,59 @@ namespace Coffee.Models
                 else { return false; }
             }
         }
-       [Display(Name = "Opening Time")]
+        [Display(Name = "Opening Time")]
         public OpeningHour OpeningTime { get; set; }
 
         [Display(Name = "Closing Time")]
         public ClosingHour ClosingTime { get; set; }
-        //list of coffees and prices
+
+        //get overall rating score
         public double StoreRating { get; }
-        //[Display(Name = "Coffee List")]
-        //public List<String> Coffees
-        //{
-        //    get
-        //    { return coffees; }
-        //    set
-        //    {
-        //        coffees = value;
-        //    }
-        //}
+
+        //City - Limerick, Cork or Dublin
         public City City { get; set; }
+
+        //does store have wifi
+        [UIHint("BooleanButtonLabel")]
+        public bool hasWifi { get; set; }
+
 
         public virtual ICollection<Drink> Drinks { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
-   
+
     public class Review
     {
-        
+        //Review ID
         public int ReviewID { get; set; }
+
+        //Customer's name
         [Display(Name = "Customer's Name")]
         [Required(ErrorMessage = "You must enter a Customer's name")]
         public String CustomerName { get; set; }
+
+        //Customer's email
+        [Display(Name = "Customer Email Address")]
+        [Required(ErrorMessage = "you must enter an email address")]
+        [EmailAddress(ErrorMessage = "you must enter a valid email address")]
+        public String CustomerEmail { get; set; }
+
+        //Make a comment
         [Required(ErrorMessage = "You must enter a comment")]
+        [StringLength(100, MinimumLength = 10, ErrorMessage = "comments range from 10 to 100 characters")]
         public String Comment { get; set; }
+
+        //Rate the store 1 = bad .... 5 = excellent
         [UIHint("_StarRating")]
         public int Rating { get; set; }
+
+        //Review date
         [Display(Name = "Review Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public DateTime? ReviewDate { get; set; }
-      
-       
+
+        //Eircode is the foreign key
         public String Eircode { get; set; }
         public virtual CoffeeStore CoffeeStore { get; set; }
     }
@@ -113,11 +129,14 @@ namespace Coffee.Models
     {
         [Key]
         public int DrinkID { get; set; }
-        [Display(Name ="Drink")]
+
+        //Drink Name
+        [Display(Name = "Drink")]
         [StringLength(20)]
         [Required(ErrorMessage = "You must enter a drink name")]
         public String DrinkName { get; set; }
-       
+
+        //coffee price
         [Range(1.0, 10, ErrorMessage = "Price must be between 1 and 10 euros")]
         public double Price { get; set; }
 

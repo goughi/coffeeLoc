@@ -307,6 +307,8 @@
     <Content Include="Views\Drink\Edit.cshtml" />
     <Content Include="Views\Drink\Index.cshtml" />
     <Content Include="Views\Coffee\CoffeeList.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Boolean.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Boolean.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

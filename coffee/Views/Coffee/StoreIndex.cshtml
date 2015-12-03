@@ -21,7 +21,13 @@
             StoreName
         </th>
         <th>
+            City
+        </th>
+        <th>
            Location
+        </th>
+        <th>
+            Has WIFI
         </th>
         <th>
             OpeningTime
@@ -46,7 +52,15 @@
                         @Html.DisplayFor(model => store.StoreName)
                     </td>
                     <td>
+                        @Html.DisplayFor(model => store.City)
+
+                    </td>
+                    <td>
                         @Html.DisplayFor(model => store.Location)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => store.hasWifi)
 
                     </td>
                     <td>
