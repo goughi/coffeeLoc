@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Coffee.Models;
 using coffee.ViewModels;
 using System.Data.Entity;
+using PagedList;
 
 
 namespace coffee.Controllers
@@ -65,11 +66,23 @@ namespace coffee.Controllers
             }
             return View(viewModel);
         }
+        public ActionResult ReviewList(string eircode)
+        {
+            //string res = eircode
+            var viewModel = new CoffeeIndexData();
+            viewModel.coffeeStores = db.CoffeeStores.Include(c => c.Reviews).ToList();
+            if (eircode != null)
+            {
+                ViewBag.Eircode = eircode;
+                viewModel.reviews = viewModel.coffeeStores.Where(c => c.Eircode == eircode).Single().Reviews;
+            }
+            return View(viewModel);
+        }
         //search for stores
-        
+
         //public ActionResult StoreIndexSearch(string searchString, string city)
         //{
-          
+
         //    var CityLst = new List<string>();
 
         //    var CityQry = from c in db.CoffeeStores
@@ -92,25 +105,58 @@ namespace coffee.Controllers
 
         //    return View(stores);
         //}
-        // GET: Coffee
-        public ActionResult StoreIndex(string eircode, string searchString)
+        // GET: Coffee/ searchString = filter, sortOrder = sortby date and name, 
+        public ActionResult StoreIndex(string eircode, string searchString, string currentFilter, string sortOrder, int? page)
         {
             //string res = eircode
-            var viewModel = new CoffeeIndexData();
-            viewModel.coffeeStores = db.CoffeeStores.Include(c => c.Reviews).ToList();
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "city" ? "city_desc" : "city";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+            var stores = from s in db.CoffeeStores
+                           select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-               viewModel.coffeeStores = viewModel.coffeeStores.Where(s => s.StoreName.Contains(searchString));
+                stores = stores.Where(s => s.StoreName.Contains(searchString));
             }
-
-            if (eircode!=null)
+            switch (sortOrder)
             {
-                ViewBag.Eircode = eircode;
-                viewModel.reviews = viewModel.coffeeStores.Where(c => c.Eircode == eircode).Single().Reviews;
+                case "name_desc":
+                    stores = stores.OrderByDescending(s => s.StoreName);
+                    break;
+                case "city":
+                    stores = stores.OrderBy(s => s.City);
+                    break;
+                case "city_desc":
+                    stores = stores.OrderByDescending(s => s.City);
+                    break;
+                default:
+                    stores = stores.OrderBy(s => s.StoreName);
+                    break;
             }
-            return View(viewModel);
-    }
+           
+
+            //if (eircode != null)
+            //{
+            //    ViewBag.Eircode = eircode;
+            //    viewModel.reviews = viewModel.coffeeStores.Where(c => c.Eircode == eircode).Single().Reviews;
+            //}
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(stores.ToPagedList(pageNumber, pageSize));
+        }
         // GET: CoffeeStores/Details/5
         public ActionResult Details(string eircode)
         {

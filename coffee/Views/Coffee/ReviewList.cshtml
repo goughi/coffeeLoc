@@ -1,0 +1,125 @@
+﻿@model coffee.ViewModels.CoffeeIndexData
+
+@{
+    ViewBag.Title = "StoreIndex";
+}
+
+<h2>CoffeeStores</h2>
+
+<p>
+    @Html.ActionLink("Add new coffee store", "Create")
+    @using (Html.BeginForm())
+    {
+    <p>
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-10">
+                Store Name : @Html.TextBox("SearchString")&nbsp&nbsp
+                <input type="submit" value="Filter" class="btn btn-success" />
+            </div>
+        </div>
+    </p>
+    }
+    </p>
+
+
+    <table class=" table">
+        <tr>
+
+            <th>
+                Eircode
+            </th>
+            <th>
+                StoreName
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Has WIFI
+            </th>
+            <th>
+                OpeningTime
+            </th>
+            <th>
+                ClosingTime
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var store in Model.coffeeStores)
+        {
+            string selectedRow = "";
+            if (store.Eircode == ViewBag.Eircode)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(model => store.Eircode)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.StoreName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.City)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.Location)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.hasWifi)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.OpeningTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => store.ClosingTime)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Select", "ReviewList", new { Eircode = store.Eircode })
+                    @Html.ActionLink("Coffee List", "CoffeeList", new { Eircode = store.Eircode })
+                    @Html.ActionLink("Edit", "Edit", new { Eircode = store.Eircode })
+                    @Html.ActionLink("Details", "Details", new { Eircode = store.Eircode })
+                    @Html.ActionLink("Delete", "Delete", new { Eircode = store.Eircode })
+                </td>
+            </tr>
+        }
+    </table>
+
+    @if (Model.reviews != null)
+    {
+        <h3>Reviews for selected coffee store</h3>
+        <table class="table">
+            <tr>
+
+                <th>Eircode</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+            @foreach (var review in Model.reviews)
+            {
+
+                <tr>
+
+                    <td>
+                        @review.Eircode
+                    </td>
+                    <td>
+                        @review.Rating
+                    </td>
+                    <td>
+                        @review.Comment
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+    }
+
