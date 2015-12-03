@@ -65,13 +65,46 @@ namespace coffee.Controllers
             }
             return View(viewModel);
         }
+        //search for stores
+        
+        //public ActionResult StoreIndexSearch(string searchString, string city)
+        //{
+          
+        //    var CityLst = new List<string>();
+
+        //    var CityQry = from c in db.CoffeeStores
+        //                   orderby c.City
+        //                   select c.City.ToString();
+
+        //   CityLst.AddRange(CityQry.Distinct());
+        //    ViewBag.storeCity = new SelectList(CityLst);
+        //   var stores = from s in db.CoffeeStores
+        //                 select s;
+
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        stores = stores.Where(s => s.StoreName.Contains(searchString));
+        //    }
+        //    if (!string.IsNullOrEmpty(city))
+        //    {
+        //       stores = stores.Where(x => x.City.ToString() == city);
+        //    }
+
+        //    return View(stores);
+        //}
         // GET: Coffee
-        public ActionResult StoreIndex(string eircode)
+        public ActionResult StoreIndex(string eircode, string searchString)
         {
             //string res = eircode
             var viewModel = new CoffeeIndexData();
             viewModel.coffeeStores = db.CoffeeStores.Include(c => c.Reviews).ToList();
-           if(eircode!=null)
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+               viewModel.coffeeStores = viewModel.coffeeStores.Where(s => s.StoreName.Contains(searchString));
+            }
+
+            if (eircode!=null)
             {
                 ViewBag.Eircode = eircode;
                 viewModel.reviews = viewModel.coffeeStores.Where(c => c.Eircode == eircode).Single().Reviews;

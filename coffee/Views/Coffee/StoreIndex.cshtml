@@ -8,6 +8,17 @@
 
 <p>
     @Html.ActionLink("Add new coffee store", "Create")
+    @using (Html.BeginForm())
+    {
+    <p>
+        <div class="form-group">
+        <div class="col-md-offset-0 col-md-10">
+            Store Name : @Html.TextBox("SearchString")&nbsp&nbsp
+            <input type="submit" value="Filter" class="btn btn-success" />
+            </div>
+        </div>
+</p>
+    }
 </p>
 
 

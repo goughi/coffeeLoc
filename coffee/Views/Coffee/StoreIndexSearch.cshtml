@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Coffee.Models.CoffeeStore>
+
+@{
+    ViewBag.Title = "StoreIndexSearch";
+}
+
+<h2>StoreIndexSearch</h2>
+<p>
+    @Html.ActionLink("Add New Store", "Create")
+
+    @using (Html.BeginForm("StoreIndexSearch", "Coffee", FormMethod.Get))
+    {
+<p>
+        City: @Html.DropDownList("storeCity", "All")
+        Store Name: @Html.TextBox("SearchString")
+        <input type="submit" value="Filter" />
+    </p>
+}
+</p>
+<div>
+    <h4>CoffeeStore</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StoreName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OpeningTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpeningTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClosingTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ClosingTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hasWifi)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hasWifi)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { Eircode = Model.Eircode }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

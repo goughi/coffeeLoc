@@ -47,14 +47,14 @@ namespace Coffee.Models
 
         //Eircode
         [Key]
-        // eircode is a 7 character code, 3 char routing key (A..Z, 1..9)
-        // followed by 4 char unique ID (A..Z, 1..9)
-        [RegularExpression("([A-Z1-9]{7})", ErrorMessage = "Invalid Eircode")]
+        // eircode is a 7 character code, 3 char routing key (A..Z, 0..9)
+        // followed by 4 char unique ID (A..Z, 0..9)
+        [RegularExpression("([A-Z0-9]{7})", ErrorMessage = "Invalid Eircode")]
         public String Eircode { get; set; }
 
         //Location
         [Required(ErrorMessage = "You must enter a location")]
-        [StringLength(42)]
+        [StringLength(52)]
         public String Location { get; set; }
 
         //opening/closing hours
