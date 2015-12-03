@@ -116,10 +116,11 @@ namespace Coffee.Models
         public int Rating { get; set; }
 
         //Review date
+        private DateTime reviewDate = DateTime.Now;
         [Display(Name = "Review Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? ReviewDate { get; set; }
+        public DateTime ReviewDate { get { return reviewDate; } set { reviewDate = value; } }
 
         //Eircode is the foreign key
         public String Eircode { get; set; }
