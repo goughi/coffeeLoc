@@ -14,13 +14,9 @@
     @using (Html.BeginForm("StoreIndex", "Coffee", FormMethod.Get))
     {
     <p>
-        <div class="form-group">
-        <div class="col-md-offset-0 col-md-10">
-            Store Name : @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)&nbsp&nbsp
-            <input type="submit" value="Filter" class="btn btn-success" />
-            </div>
-        </div>
-</p>
+        Find by store name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
     }
 </p>
 
