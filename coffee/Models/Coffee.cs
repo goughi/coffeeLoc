@@ -60,13 +60,16 @@ namespace Coffee.Models
         //opening/closing hours
         public bool IsOpen
         {
-            get
+          
+                get
             {
-                if ((DateTime.Now.Hour >= (int)OpeningTime) && (DateTime.Now.Hour <= (int)ClosingTime))
-                {
-                    return true;
-                }
-                else { return false; }
+                    long n = long.Parse(DateTime.Now.ToString("HHmm"));
+                    if ((n >= (int)OpeningTime) && (n <= (int)ClosingTime))
+                    {
+                        return true;
+                    }
+                    else { return false; }
+                
             }
         }
         [Display(Name = "Opening Time")]
@@ -76,7 +79,24 @@ namespace Coffee.Models
         public ClosingHour ClosingTime { get; set; }
 
         //get overall rating score
-        public double StoreRating { get; }
+        public double? StoreRating
+        {
+            get
+            {
+                using (DrinkContext db = new DrinkContext())
+                {
+                    var average = (from b in db.Reviews
+                                   where b.Eircode.Equals(Eircode)
+                                   select b.Rating);
+                    if (average.Any())
+                    {
+                        return average.Average();
+                    }
+
+                    return 0;
+                }
+            }
+        }
 
         //City - Limerick, Cork or Dublin
         public City City { get; set; }
@@ -223,14 +243,21 @@ namespace Coffee.Models
     {
         static void main()
         {
-            DrinkRepository repository = new DrinkRepository();
+            //DrinkContext db = new DrinkContext();
+            //CoffeeStore charleys = new CoffeeStore() { Eircode = "T12GH46", City = City.Dublin, OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1800, Location = "dublin fair city", StoreName = "charleys", hasWifi = true };
+            //List<Review> reviews = new List<Review>();
+            //reviews.Add(new Review() { CustomerName = "Stevo", CustomerEmail = "stevo@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 4 });
+            //reviews.Add(new Review() { CustomerName = "john", CustomerEmail = "john@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 3 });
+            //reviews.Add(new Review() { CustomerName = "pete", CustomerEmail = "pete@yahoo.com", Eircode = "T12GH46", Comment = "It wasn't great", Rating = 2 });
+
+            //Console.WriteLine(charleys.StoreRating);
 
             //CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>() };
             //repository.AddStore(st1);
-           // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
-           // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
-           // repository.AddDrink(latte);
-           // repository.AddReview(r1);
+            // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
+            // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
+            // repository.AddDrink(latte);
+            // repository.AddReview(r1);
 
         }
     }
