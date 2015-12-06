@@ -259,6 +259,8 @@ namespace Coffee.Models
             // repository.AddDrink(latte);
             // repository.AddReview(r1);
 
+            //my local connection string
+            //Data Source=.\SQLEXPRESS;Initial Catalog=newDb;Integrated Security=SSPI;AttachDBFilename=C:\martin\data\coffeeDb.mdf
         }
     }
 }
