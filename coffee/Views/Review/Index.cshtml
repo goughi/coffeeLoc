@@ -1,30 +1,42 @@
-﻿@model IEnumerable<Coffee.Models.Review>
-
+﻿
+@model PagedList.IPagedList<Coffee.Models.Review>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Reviews";
 
 }
-<h2>Index</h2>
+<h2>Reviews</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
+    @using (Html.BeginForm("Index", "Review", FormMethod.Get))
+    {
+    <p>
+        Find by customer name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+    }
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CoffeeStore.StoreName)
+            @Html.ActionLink("Store Name", "Index", new { sortOrder = ViewBag.StoreSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CustomerName)
+            @Html.ActionLink("Store Location", "Index", new { sortOrder = ViewBag.LocationSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comment)
+           @Html.ActionLink("Customer Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Rating)
+            Comment
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReviewDate)
+            @Html.ActionLink("Rating", "Index", new { sortOrder = ViewBag.RatingSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Review Date", "Index", new { sortOrder = ViewBag.DateSortParm,currentFilter = ViewBag.CurrentFilter })
         </th>
         <th></th>
     </tr>
@@ -33,6 +45,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.CoffeeStore.StoreName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CoffeeStore.Location)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CustomerName)
@@ -55,3 +70,8 @@
 }
 
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

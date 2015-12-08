@@ -1,13 +1,23 @@
-﻿@model coffee.ViewModels.CoffeeIndexData
+﻿
+@model PagedList.IPagedList<Coffee.Models.CoffeeStore>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewBag.Title = "StoreIndex";
+    ViewBag.Title = "CoffeeStores";
 }
 
 <h2>CoffeeStores</h2>
 
 <p>
     @Html.ActionLink("Add new coffee store", "Create")
+    @using (Html.BeginForm("StoreIndex", "Coffee", FormMethod.Get))
+    {
+    <p>
+        Find by store name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+    }
 </p>
 
 
@@ -18,10 +28,16 @@
            Eircode
         </th>
         <th>
-            StoreName
+            @Html.ActionLink("Store Name", "StoreIndex", new { sortOrder = ViewBag.NameSortParm , currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("City", "StoreIndex", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
            Location
+        </th>
+        <th>
+            Has WIFI
         </th>
         <th>
             OpeningTime
@@ -31,14 +47,9 @@
         </th>
         <th></th>
     </tr>
-    @foreach (var store in Model.coffeeStores)
-    {
-        string selectedRow = "";
-        if (store.Eircode == ViewBag.Eircode)
-        {
-            selectedRow = "success";
-        }
-                <tr class="@selectedRow">
+  @foreach (var store in Model)
+  {
+                <tr>
                     <td>
                         @Html.DisplayFor(model => store.Eircode)
                     </td>
@@ -46,7 +57,15 @@
                         @Html.DisplayFor(model => store.StoreName)
                     </td>
                     <td>
+                        @Html.DisplayFor(model => store.City)
+
+                    </td>
+                    <td>
                         @Html.DisplayFor(model => store.Location)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => store.hasWifi)
 
                     </td>
                     <td>
@@ -57,46 +76,23 @@
                     </td>
                     <td>
                     
-                        @Html.ActionLink("Select", "StoreIndex", new { Eircode = store.Eircode })
+                        @Html.ActionLink("Select", "ReviewList", new { Eircode = store.Eircode })
                     @Html.ActionLink("Coffee List", "CoffeeList", new { Eircode = store.Eircode })
                         @Html.ActionLink("Edit", "Edit", new { Eircode = store.Eircode })
                         @Html.ActionLink("Details", "Details", new { Eircode = store.Eircode })
                         @Html.ActionLink("Delete", "Delete", new { Eircode = store.Eircode })
                     </td>
                 </tr>
-        }
+  }
     </table>
-        
-      @if (Model.reviews != null)
-      {
-        <h3>Reviews for selected coffee store</h3>
-        <table class="table">
-            <tr>
-               
-                <th>Eircode</th>
-                <th>Rating</th>
-                <th>Comment</th>
-            </tr>
-            @foreach (var review in Model.reviews)
-            {
-               
-                <tr>
-                    
-                    <td>
-                        @review.Eircode
-                    </td>
-                    <td>
-                        @review.Rating
-                    </td>
-                  <td>
-                      @review.Comment
-                  </td>
-                    
-                </tr>
+       <br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-            }
-        </table>
-      }
+@Html.PagedListPager(Model, page => Url.Action("StoreIndex",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })) 
+     
+        
+      
 
 
 

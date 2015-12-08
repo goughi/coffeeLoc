@@ -7,7 +7,6 @@ using System.Data.Entity;
 
 namespace Coffee.Models
 {
-    
     public enum OpeningHour
     {
         [Display(Name = "5:00 AM")]
@@ -40,76 +39,110 @@ namespace Coffee.Models
     public enum City { Limerick, Cork, Dublin }
     public class CoffeeStore
     {
-        public bool HasWifi
-        {
-            get; set;
-        }
-        
         //Store name
         [Display(Name = "Store Name")]
         [StringLength(20)]
-        [Required(ErrorMessage =" You must enter a name for coffee store")]
+        [Required(ErrorMessage = " You must enter a name for coffee store")]
         public String StoreName { get; set; }
+
         //Eircode
         [Key]
-        [Required(ErrorMessage ="You must enter a specific Eircode for store location")]
+        // eircode is a 7 character code, 3 char routing key (A..Z, 0..9)
+        // followed by 4 char unique ID (A..Z, 0..9)
+        [RegularExpression("([A-Z0-9]{7})", ErrorMessage = "Invalid Eircode")]
         public String Eircode { get; set; }
+
         //Location
-        [Required(ErrorMessage ="You must enter a location")]
-        [StringLength(42)]
+        [Required(ErrorMessage = "You must enter a location")]
+        [StringLength(52)]
         public String Location { get; set; }
+
         //opening/closing hours
         public bool IsOpen
         {
-            get
+          
+                get
             {
-                if ((DateTime.Now.Hour >= (int)OpeningTime) && (DateTime.Now.Hour <= (int)ClosingTime))
-                {
-                    return true;
-                }
-                else { return false; }
+                    long n = long.Parse(DateTime.Now.ToString("HHmm"));
+                    if ((n >= (int)OpeningTime) && (n <= (int)ClosingTime))
+                    {
+                        return true;
+                    }
+                    else { return false; }
+                
             }
         }
-       [Display(Name = "Opening Time")]
+        [Display(Name = "Opening Time")]
         public OpeningHour OpeningTime { get; set; }
 
         [Display(Name = "Closing Time")]
         public ClosingHour ClosingTime { get; set; }
-        //list of coffees and prices
-        public double StoreRating { get; }
-        //[Display(Name = "Coffee List")]
-        //public List<String> Coffees
-        //{
-        //    get
-        //    { return coffees; }
-        //    set
-        //    {
-        //        coffees = value;
-        //    }
-        //}
+
+        //get overall rating score
+        public double? StoreRating
+        {
+            get
+            {
+                using (DrinkContext db = new DrinkContext())
+                {
+                    var average = (from b in db.Reviews
+                                   where b.Eircode.Equals(Eircode)
+                                   select b.Rating);
+                    if (average.Any())
+                    {
+                        return average.Average();
+                    }
+
+                    return 0;
+                }
+            }
+        }
+
+        //City - Limerick, Cork or Dublin
         public City City { get; set; }
+
+        //does store have wifi
+        [UIHint("BooleanButtonLabel")]
+        public bool hasWifi { get; set; }
+
 
         public virtual ICollection<Drink> Drinks { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
-   
+
     public class Review
     {
-        
+        //Review ID
         public int ReviewID { get; set; }
+
+        //Customer's name
         [Display(Name = "Customer's Name")]
         [Required(ErrorMessage = "You must enter a Customer's name")]
         public String CustomerName { get; set; }
+
+        //Customer's email
+        [Display(Name = "Customer Email Address")]
+        [Required(ErrorMessage = "you must enter an email address")]
+        [EmailAddress(ErrorMessage = "you must enter a valid email address")]
+        public String CustomerEmail { get; set; }
+
+        //Make a comment
         [Required(ErrorMessage = "You must enter a comment")]
+        [StringLength(100, MinimumLength = 10, ErrorMessage = "comments range from 10 to 100 characters")]
         public String Comment { get; set; }
+
+        //Rate the store 1 = bad .... 5 = excellent
         [UIHint("_StarRating")]
         public int Rating { get; set; }
+
+        //Review date
+        private DateTime reviewDate = DateTime.Now;
         [Display(Name = "Review Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
-        public DateTime? ReviewDate { get; set; }
-      
-       
+        public DateTime ReviewDate { get { return reviewDate; } set { reviewDate = value; } }
+
+        //Eircode is the foreign key
         public String Eircode { get; set; }
         public virtual CoffeeStore CoffeeStore { get; set; }
     }
@@ -117,11 +150,14 @@ namespace Coffee.Models
     {
         [Key]
         public int DrinkID { get; set; }
-        [Display(Name ="Drink")]
+
+        //Drink Name
+        [Display(Name = "Drink")]
         [StringLength(20)]
         [Required(ErrorMessage = "You must enter a drink name")]
         public String DrinkName { get; set; }
-       
+
+        //coffee price
         [Range(1.0, 10, ErrorMessage = "Price must be between 1 and 10 euros")]
         public double Price { get; set; }
 
@@ -207,15 +243,24 @@ namespace Coffee.Models
     {
         static void main()
         {
-            DrinkRepository repository = new DrinkRepository();
+            //DrinkContext db = new DrinkContext();
+            //CoffeeStore charleys = new CoffeeStore() { Eircode = "T12GH46", City = City.Dublin, OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1800, Location = "dublin fair city", StoreName = "charleys", hasWifi = true };
+            //List<Review> reviews = new List<Review>();
+            //reviews.Add(new Review() { CustomerName = "Stevo", CustomerEmail = "stevo@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 4 });
+            //reviews.Add(new Review() { CustomerName = "john", CustomerEmail = "john@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 3 });
+            //reviews.Add(new Review() { CustomerName = "pete", CustomerEmail = "pete@yahoo.com", Eircode = "T12GH46", Comment = "It wasn't great", Rating = 2 });
+
+            //Console.WriteLine(charleys.StoreRating);
 
             //CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>() };
             //repository.AddStore(st1);
-           // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
-           // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
-           // repository.AddDrink(latte);
-           // repository.AddReview(r1);
+            // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
+            // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
+            // repository.AddDrink(latte);
+            // repository.AddReview(r1);
 
+            //my local connection string
+            //Data Source=.\SQLEXPRESS;Initial Catalog=newDb;Integrated Security=SSPI;AttachDBFilename=C:\martin\data\coffeeDb.mdf
         }
     }
 }
