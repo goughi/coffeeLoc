@@ -7,6 +7,7 @@ using System.Data.Entity;
 
 namespace Coffee.Models
 {
+    
     public enum OpeningHour
     {
         [Display(Name = "5:00 AM")]
@@ -39,7 +40,10 @@ namespace Coffee.Models
     public enum City { Limerick, Cork, Dublin }
     public class CoffeeStore
     {
-        
+        public bool HasWifi
+        {
+            get; set;
+        }
         
         //Store name
         [Display(Name = "Store Name")]
