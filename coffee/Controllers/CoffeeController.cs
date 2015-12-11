@@ -16,6 +16,7 @@ namespace coffee.Controllers
     public class CoffeeController : Controller
     {
         private DrinkContext db = new DrinkContext();
+      
         // Do Entity Framework code first
         public ActionResult DoCodeFirst()
         {
@@ -175,13 +176,14 @@ namespace coffee.Controllers
         // GET: CoffeeStores/Create
         public ActionResult Create()
         {
-            return View();
+            CoffeeStore coffeestore = new CoffeeStore() { };
+            return View(coffeestore);
         }
 
         // POST: Coffee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Eircode,StoreName,City,Location,hasWifi,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
+        public ActionResult Create([Bind(Include = "Eircode,StoreName,StoreRating,City,Location,hasWifi,OpeningTime,ClosingTime")] CoffeeStore coffeeStore)
         {
             if (ModelState.IsValid)
             {

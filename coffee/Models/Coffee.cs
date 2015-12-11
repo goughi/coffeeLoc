@@ -79,23 +79,27 @@ namespace Coffee.Models
         public ClosingHour ClosingTime { get; set; }
 
         //get overall rating score
+     
         public double? StoreRating
         {
             get
             {
                 using (DrinkContext db = new DrinkContext())
                 {
-                    var average = (from b in db.Reviews
-                                   where b.Eircode.Equals(Eircode)
-                                   select b.Rating);
-                    if (average.Any())
+
+                    var reviews = db.Reviews.Where(r => r.Eircode == Eircode);
+                       
+                 
+                    if (reviews != null)
                     {
-                        return average.Average();
+                     double RatingAverage =(double?) reviews.Sum(r => r.Rating)?? 0;
+                        return RatingAverage;
                     }
 
                     return 0;
                 }
             }
+           
         }
 
         //City - Limerick, Cork or Dublin
@@ -132,6 +136,7 @@ namespace Coffee.Models
         public String Comment { get; set; }
 
         //Rate the store 1 = bad .... 5 = excellent
+        [Required]
         [UIHint("_StarRating")]
         public int Rating { get; set; }
 

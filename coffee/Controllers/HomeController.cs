@@ -15,7 +15,7 @@ namespace coffee.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Coffee Locator.";
 
             return View();
         }
