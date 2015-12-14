@@ -79,7 +79,7 @@ namespace coffee.Controllers
             }
             return View(viewModel);
         }
-        //search for stores
+        //search for stores try tmake this work
 
         //public ActionResult StoreIndexSearch(string searchString, string city)
         //{
