@@ -15,7 +15,7 @@ namespace coffee.Controllers
     {
         private DrinkContext db = new DrinkContext();
 
-        // GET: Review
+        // GET: Reviews/ using filter and sort/ and page numbers
         public ActionResult Index(string sortOrder, string searchString, string currentFilter, int? page)
         {
             var reviews = db.Reviews.Include(r => r.CoffeeStore);
@@ -96,6 +96,29 @@ namespace coffee.Controllers
             return View(review);
         }
 
+        // GET: Review/ContactCustomer/5
+        public ActionResult ContactCustomer(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Review review = db.Reviews.Find(id);
+            if (review == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.Message = "Send Customer a message or promotion!";
+            return View(review);
+        }
+
+        //send a message/ promotion to customer 
+        [HttpPost]
+        public ActionResult ContactCustomer(String message, Review review)
+        {
+            ViewBag.Message = "Message to customer has been sent!";
+            return View();
+        }
         // GET: Review/Create
         public ActionResult Create()
         {
@@ -106,8 +129,6 @@ namespace coffee.Controllers
         }
 
         // POST: Review/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ReviewID,CustomerName,CustomerEmail,Comment,Rating,ReviewDate,Eircode")] Review review)
@@ -140,8 +161,6 @@ namespace coffee.Controllers
         }
 
         // POST: Review/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ReviewID,CustomerName,CustomerEmail,Comment,Rating,ReviewDate,Eircode")] Review review)

@@ -12,10 +12,7 @@
     {
     <p>
         <div class="form-group">
-            <div class="col-md-offset-0 col-md-10">
-                Store Name : @Html.TextBox("SearchString")&nbsp&nbsp
-                <input type="submit" value="Filter" class="btn btn-success" />
-            </div>
+           
         </div>
     </p>
     }
@@ -82,7 +79,7 @@
                 </td>
                 <td>
 
-                    @Html.ActionLink("Select", "ReviewList", new { Eircode = store.Eircode })
+                    @Html.ActionLink("Reviews", "ReviewList", new { Eircode = store.Eircode })
                     @Html.ActionLink("Coffee List", "CoffeeList", new { Eircode = store.Eircode })
                     @Html.ActionLink("Edit", "Edit", new { Eircode = store.Eircode })
                     @Html.ActionLink("Details", "Details", new { Eircode = store.Eircode })

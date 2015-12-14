@@ -35,7 +35,7 @@ namespace Coffee.Models
         [Display(Name = "7:00 PM")]
         PM1900 = 1900
     }
-    public enum Rating {[Display(Name = "1")]one = 1, [Display(Name = "2")]two, [Display(Name = "3")]three, [Display(Name = "4")]four, [Display(Name = "5")]five }
+  
     public enum City { Limerick, Cork, Dublin }
     public class CoffeeStore
     {
@@ -87,12 +87,12 @@ namespace Coffee.Models
                 using (DrinkContext db = new DrinkContext())
                 {
 
-                    var reviews = db.Reviews.Where(r => r.Eircode == Eircode);
+                    var reviews = db.Reviews.ToList().Where(r => r.Eircode == Eircode);
                        
                  
-                    if (reviews != null)
+                    if (reviews.Count() > 0)
                     {
-                     double RatingAverage =(double?) reviews.Sum(r => r.Rating)?? 0;
+                     double RatingAverage =(double?) reviews.Average(r => r.Rating)?? 0;
                         return RatingAverage;
                     }
 
@@ -117,6 +117,7 @@ namespace Coffee.Models
     public class Review
     {
         //Review ID
+        [Key]
         public int ReviewID { get; set; }
 
         //Customer's name
@@ -225,44 +226,19 @@ namespace Coffee.Models
             }
         }
     }
-    //public class ReviewRepository
-    //{
-    //    public void DoReviewsQuery()
-    //    {
-    //        using (DrinkContext db = new DrinkContext())
-    //        {
-    //            var coffeeStoreReviews = db.CoffeeStores.Select(a => new { storeName = a.StoreName, location = a.Location, reviews = a.Reviews });
-    //            foreach(var coffeestore in coffeeStoreReviews)
-    //            {
-    //                var storeReviews = coffeestore.reviews;
-    //                foreach(var storeReview in storeReviews)
-    //                {
-                        
 
-    //                }
-    //            }
-    //        }
-    //    }
-  //  }
     public class CodeFirstTest
     {
         static void main()
         {
-            //DrinkContext db = new DrinkContext();
-            //CoffeeStore charleys = new CoffeeStore() { Eircode = "T12GH46", City = City.Dublin, OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1800, Location = "dublin fair city", StoreName = "charleys", hasWifi = true };
-            //List<Review> reviews = new List<Review>();
-            //reviews.Add(new Review() { CustomerName = "Stevo", CustomerEmail = "stevo@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 4 });
-            //reviews.Add(new Review() { CustomerName = "john", CustomerEmail = "john@yahoo.com", Eircode = "T12GH46", Comment = "It was great", Rating = 3 });
-            //reviews.Add(new Review() { CustomerName = "pete", CustomerEmail = "pete@yahoo.com", Eircode = "T12GH46", Comment = "It wasn't great", Rating = 2 });
+            DrinkContext db = new DrinkContext();
+            CoffeeStore charleys = new CoffeeStore() { Eircode = "T12GH46", City = City.Dublin, OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1800, Location = "dublin fair city", StoreName = "charleys", hasWifi = true };
+            List<Review> reviews = new List<Review>();
+            reviews.Add(new Review() { CustomerName = "Stevo", CustomerEmail = "stevo@yahoo.com", Eircode = charleys.Eircode, Comment = "It was great", Rating = 4 });
+            reviews.Add(new Review() { CustomerName = "john", CustomerEmail = "john@yahoo.com", Eircode = charleys.Eircode, Comment = "It was great", Rating = 3 });
+            reviews.Add(new Review() { CustomerName = "pete", CustomerEmail = "pete@yahoo.com", Eircode = charleys.Eircode, Comment = "It wasn't great", Rating = 2 });
 
-            //Console.WriteLine(charleys.StoreRating);
-
-            //CoffeeStore st1 = new CoffeeStore() { Eircode = "C15C98E", City = City.Limerick, Location = "O' Connell St. Limerick", OpeningTime = OpeningHour.AM0700, ClosingTime = ClosingHour.PM1730, StoreName = "Starbucks", Reviews = new List<Review>() };
-            //repository.AddStore(st1);
-            // Drink latte = new Drink() { DrinkName = "Cafe Latte", DrinkID = 001, DrinkSize = DrinkSize.grande, Price = 3.40, Eircode = st1.Eircode };
-            // Review r1 = new Review() { ReviewID = 999, CustomerName = "mg1", Comment = "The coffee is way too expensive", Rating = Rating.two, Eircode = st1.Eircode };
-            // repository.AddDrink(latte);
-            // repository.AddReview(r1);
+            
 
             //my local connection string
             //Data Source=.\SQLEXPRESS;Initial Catalog=newDb;Integrated Security=SSPI;AttachDBFilename=C:\martin\data\coffeeDb.mdf

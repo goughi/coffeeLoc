@@ -67,6 +67,8 @@ namespace coffee.Controllers
             }
             return View(viewModel);
         }
+
+        //get review list
         public ActionResult ReviewList(string eircode)
         {
             //string res = eircode
@@ -79,33 +81,7 @@ namespace coffee.Controllers
             }
             return View(viewModel);
         }
-        //search for stores
 
-        //public ActionResult StoreIndexSearch(string searchString, string city)
-        //{
-
-        //    var CityLst = new List<string>();
-
-        //    var CityQry = from c in db.CoffeeStores
-        //                   orderby c.City
-        //                   select c.City.ToString();
-
-        //   CityLst.AddRange(CityQry.Distinct());
-        //    ViewBag.storeCity = new SelectList(CityLst);
-        //   var stores = from s in db.CoffeeStores
-        //                 select s;
-
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        stores = stores.Where(s => s.StoreName.Contains(searchString));
-        //    }
-        //    if (!string.IsNullOrEmpty(city))
-        //    {
-        //       stores = stores.Where(x => x.City.ToString() == city);
-        //    }
-
-        //    return View(stores);
-        //}
         // GET: Coffee/ searchString = filter, sortOrder = sortby date and name, 
         public ActionResult StoreIndex(string eircode, string searchString, string currentFilter, string sortOrder, int? page)
         {
@@ -149,11 +125,7 @@ namespace coffee.Controllers
             }
            
 
-            //if (eircode != null)
-            //{
-            //    ViewBag.Eircode = eircode;
-            //    viewModel.reviews = viewModel.coffeeStores.Where(c => c.Eircode == eircode).Single().Reviews;
-            //}
+          
             int pageSize = 3;
             int pageNumber = (page ?? 1);
             return View(stores.ToPagedList(pageNumber, pageSize));

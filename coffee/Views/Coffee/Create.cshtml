@@ -1,17 +1,17 @@
 ﻿@model Coffee.Models.CoffeeStore
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Add Store";
 }
 
-<h2>Create</h2>
+<h2>Add Store</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>CoffeeStore</h4>
+       
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -92,5 +92,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "StoreIndex")
+    @Html.ActionLink("Back to store List", "StoreIndex")
 </div>

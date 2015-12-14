@@ -4,10 +4,10 @@
     ViewBag.Title = " Coffee Store Details";
 }
 
-<h2>Details</h2>
+<h2> Store Details</h2>
 
 <div>
-    <h4>CoffeeStore</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -41,10 +41,16 @@
         <dd>
             @Html.DisplayFor(model => model.ClosingTime)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StoreRating)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.StoreRating)
+        </dd>
     </dl>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { Eircode = Model.Eircode }) |
-    @Html.ActionLink("Back to List", "StoreIndex")
+    @Html.ActionLink("Back to Store List", "StoreIndex")
 </p>
