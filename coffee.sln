@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoffeeMvcTest", "CoffeeMvcT
 EndProject
 Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "coffee.Azure1", "coffee.Azure1\coffee.Azure1.ccproj", "{C4A3F3DE-E7AC-49BA-BD46-E0044DB57BFA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{32490C08-C921-4707-B07C-098B8C082C9E}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

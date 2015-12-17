@@ -59,6 +59,9 @@ namespace CoffeeMvcTest
             Assert.AreEqual(charleys.IsOpen, true);
         }
 
+       
+
+
         [TestMethod]
         public void TestAddDrink()
         {
@@ -69,6 +72,8 @@ namespace CoffeeMvcTest
             Assert.AreEqual(BubbleTea.Price, 2.45);
             Assert.AreEqual(BubbleTea.Eircode, "T12GH46");
         }
+
+        
 
     
     }
